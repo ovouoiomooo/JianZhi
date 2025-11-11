@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>欢迎 · 剪纸</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  /* 1. 封面全屏层 */
+#welcome {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity .6s, transform .6s;
+
+  /* === 背景图 + 背景色 === */
+  background: url(./bg.jpg) center/calc(60% + 400px) auto no-repeat;
+  background-color: #c11a20;  /* 主题红色 */
+}
+  #welcome.hide{
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+  
+
+  /* 2. 剪纸 */
+  #paper{
+    width: clamp(380px, 80vw, 680px);
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,.25));
+    user-select: none;
+    margin-bottom: 40px;
+  }
+
+  /* 3. 进入按钮 */
+  #enterBtn {
+  padding: 12px 40px;
+  font-size: 18px;
+  color: #9f1313;
+  background: rgba(255, 255, 255, 0.18);   /* 玻璃感关键 */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s, transform 0.2s;
+}
+#enterBtn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+#enterBtn:active {
+  transform: translateY(2px);
+}
+
+  /* 4. 真正主页内容（一开始被盖住） */
+  #main{
+    display: none;
+    position: relative; /* 让伪元素相对它定位 */
+  }          /* 先藏 */
+  #main::before {
+  content: '';
+  position: fixed; /* 相对于视口全屏 */
+  inset: 0;
+  background: rgba(0, 0, 0, .2); /* 50% 黑罩，可调 */
+  z-index: 0; /* 背景层 */
+  pointer-events: none; /* 不影响点击 */
+}
+/* 让文字、导航高于遮罩 */
+#main > * {
+  position: relative;
+  z-index: 1;
+}
+  #main.show{display: block;}    /* 封面消失后再显示 */
+</style>
+</head>
+
+<body>
+  <!-- ① 欢迎封面 -->
+  <div id="welcome">
+    <img id="paper" src="tiger-papercut.svg" alt="剪纸">
+    <button id="enterBtn">进 入</button>
+  </div>
+
+ <!-- 主页内容 -->
+<div id="main">
+  <!-- 1. 导航区域 -->
+  <header class="heritage-header">
+    <!-- 顶部信息栏 -->
+    <div class="top-bar">
+      <div>  </div>
+      <span class="site-name">非遗 · 剪纸数字平台</span>
+      <div class="top-right">
+        <span id="current-date">2025-11-11 星期二 农历九月廿二</span>
+      </div>
+    </div>
+
+    <!-- 主导航菜单 -->
+    <nav class="main-nav">
+      <a href="#" class="active">首页</a>
+      <a href="#features">特色</a>
+      <a href="#stats">数据</a>
+      <a href="#testimonials">评价</a>
+      <a href="#contact">联系</a>
+    </nav>
+
+    <!-- 直接使用全局样式 -->
+    <img src="01.png"  alt="剪纸作品" title="剪纸作品名称">
+    
+    <div class="hero-left">
+      <h1>以纸为笔 <br>裁出东方浪漫</h1>
+      <p style="font-family: 华文楷体; font-size: 32px; font-weight: bold;">—— 中国剪纸</p>
+    </div>
+
+<!-- 或添加专用类名优化 -->
+<div class="img-container">
+  <img src="01.png" alt="剪纸作品" class="paper-cut-img">
+</div>
+
+
+  <!-- 2. Hero 区 -->
+  <section class="hero">
+   
+    <div class="hero-right">
+      <svg viewBox="0 0 400 400" class="papercut-window">
+        <defs>
+          <mask id="windowMask">
+            <rect width="100%" height="100%" fill="#fff"/>
+            <path d="M200 50a150 150 0 1 1 0 300 150 150 0 0 1 0-300zm0 50a100 100 0 1 0 0 200 100 100 0 0 0 0-200z" fill="#000"/>
+          </mask>
+        </defs>
+        <image href="bg.jpg" width="100%" height="100%" mask="url(#windowMask)"/>
+        <text x="50%" y="50%" text-anchor="middle" dy=".3em" class="window-text">剪</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 3. 特色 -->
+  <section id="features" class="features">
+    <h2>核心优势</h2>
+    <div class="cards">
+      <article class="card">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"/></svg>
+        <h3>轻量快速</h3>
+        <p>纯 HTML/CSS/JS，无框架依赖，加载 &lt;50 kB。</p>
+      </article>
+      <article class="card">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-4h2v2h-2zm0-8h2v6h-2z"/></svg>
+        <h3>响应式布局</h3>
+        <p>从手机到 4K 屏，自动适配，剪纸比例始终完美。</p>
+      </article>
+      <article class="card">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8 8 8-3.59 8-8-3.59-8-8-8zm-1-4h2v2h-2zm0-8h2v6h-2z"/></svg>
+        <h3>无障碍语义</h3>
+        <p>语义化标签 + 高对比度，符合 WCAG 2.1 标准。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 4. 高德交互地图 -->
+<section id="stats" class="stats-map">
+  <div class="map-wrapper">
+    <!-- 左侧地图容器 -->
+    <div id="gd-map" class="map-box"></div>
+
+    <!-- 右侧信息栏 -->
+    <div class="info-panel" id="info-panel">
+      <h2>全国</h2>
+      <div class="numbers">
+        <span class="num" id="proj-count">1557</span>
+        <p>国家级项目</p>
+        <span class="num" id="peo-count">3068</span>
+        <p>国家级传承人</p>
+      </div>
+      <ul id="proj-list" class="proj-list">
+        <li>剪纸</li>
+        <li>太极拳</li>
+        <li>宣纸制作技艺</li>
+        <li>京剧</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+  <!-- 5. 评价 -->
+  <section id="testimonials" class="testimonials">
+    <h2>客户说</h2>
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <blockquote class="swiper-slide">
+          <q>他们把传统剪纸做成了会动的网页，惊艳到我们的每一位访客。</q>
+          <cite>Bryce Vaughn / Unbounce</cite>
+        </blockquote>
+        <blockquote class="swiper-slide">
+          <q>一分钟完成部署，SEO 分数直接飙绿，太香了。</q>
+          <cite>Mark Smith / Envato</cite>
+        </blockquote>
+        <blockquote class="swiper-slide">
+          <q>团队把中国文化讲成了世界语言，这就是设计的魅力。</q>
+          <cite>John Hancock / Creative Team</cite>
+        </blockquote>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
+
+  <!-- 6. 页脚 -->
+  <footer id="contact" class="footer">
+    <div class="footer-inner">
+      <div class="col logo-col">
+        <svg class="bottom-logo" viewBox="0 0 120 40"><text x="0" y="30" fill="#fff" font-size="26">剪纸 · Dream</text></svg>
+        <p>© 2024 剪纸 Dream. <br>All rights reserved.</p>
+      </div>
+      <div class="col">
+        <h4>地址</h4>
+        <p>北京市东城区南锣鼓巷 1 号</p>
+      </div>
+      <div class="col">
+        <h4>联系</h4>
+        <p>example@gmail.com</p>
+      </div>
+      <div class="col">
+        <h4>关注</h4>
+        <div class="social">
+          <a href="#">微博</a>
+          <a href="#">B站</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+
+<style>
+/* 全局图片基础样式：避免裁剪、自动适配 */
+img {
+  max-width: 100%; /* 图片最大宽度不超过父容器 */
+  height: auto; /* 保持宽高比，防止拉伸变形 */
+  object-fit: contain; /* 完整显示图片，不裁剪，空白处留空 */
+  display: block; /* 消除图片底部默认空隙 */
+  margin: 0 auto; /* 可选：让图片水平居中 */
+}
+
+/* 针对剪纸图片的优化（若有特定容器类名可替换） */
+.paper-cut-img {
+  max-height: 80vh; /* 限制最大高度不超过屏幕可视区域80% */
+  padding: 8px; /* 可选：添加内边距，提升视觉效果 */
+  box-sizing: border-box;
+}
+
+/* 解决可能的容器裁剪问题 */
+.img-container {
+  overflow: visible !important; /* 强制取消容器裁剪 */
+  width: 100%; /* 容器宽度占满父元素 */
+}
+  
+/* 变量 */
+:root{
+  --red:#c11a20;
+  --gold:#faf4df;
+  --paper:#faf4df;
+  --text:#333;
+  --wood-dark:#5D4037;
+  --wood-light:#8B4513;
+  --maxWidth:1200px;
+  --radius:16px;
+  --shadow:0 8px 20px rgba(193,26,32,.15);
+}
+html{scroll-behavior:smooth;}
+
+/* 非遗导航样式 */
+.heritage-header {
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* 顶部信息栏 */
+.top-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--wood-dark);
+  color: #fff;
+  padding: 10px 20px;
+}
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+  border-radius: 5px;
+}
+.site-name {
+  font-size: 18px;
+  font-weight: bold;
+  flex: 1;
+  font-family: "楷体", "华文行楷", serif;
+}
+.top-right {
+  font-size: 14px;
+  color: var(--gold);
+}
+
+/* 主导航菜单 */
+.main-nav {
+  display: flex;
+  background-color: var(--wood-light);
+  padding: 0 20px;
+  border-bottom: 2px solid var(--red);
+}
+.main-nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 15px 20px;
+  font-size: 16px;
+  position: relative;
+  transition: all 0.3s;
+  font-family: "微软雅黑", sans-serif;
+}
+.main-nav a:hover {
+  background-color: #A0522D;
+  color: var(--gold);
+}
+.main-nav a.active {
+  color: var(--gold);
+}
+.main-nav a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--red);
+}
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--gold);
+  transition: width 0.3s;
+}
+.main-nav a:hover::after {
+  width: 100%;
+}
+
+
+
+/* Hero 区域调整 */
+.hero{
+  display:flex;
+  align-items:center;
+  gap:40px;
+  max-width:var(--maxWidth);
+  margin:auto;
+  padding: 80px 20px;
+  box-sizing: border-box;
+}
+.hero-left{
+  flex:1;
+  transform: translate(80px, -40px); /* 右移60px，上移40px */
+}
+
+/* 让文字高于遮罩 */
+.hero-left h1,
+.hero-left p {
+  position: relative;
+  z-index: 1;
+  color: #fff;               /* 直接变白字，更醒目 */
+}
+.hero-left h1{font-size:clamp(32px,5vw,56px);line-height:1.2;color:var(--red);}
+.hero-left p{margin:20px 0 30px;font-size:18px;line-height:1.6;}
+
+/* Features */
+.features{padding:80px 20px;background:var(--paper);}
+.features h2{text-align:center;font-size:32px;margin-bottom:40px;color:var(--red);}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:30px;max-width:var(--maxWidth);margin:auto;}
+.card{background:#fff;border-radius:var(--radius);padding:30px;text-align:center;box-shadow:var(--shadow);transition:.3s;}
+.card:hover{transform:translateY(-6px);}
+.card .icon{width:48px;height:48px;fill:var(--red);margin-bottom:16px;}
+.card h3{font-size:20px;margin-bottom:10px;color:var(--text);}
+.card p{font-size:15px;color:#555;}
+
+/* Stats */
+.stats{padding:60px 20px;background:#fff;}
+.stats-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;max-width:var(--maxWidth);margin:auto;text-align:center;}
+.stat .num{font-size:clamp(32px,5vw,48px);font-weight:700;color:var(--red);}
+.stat p{margin-top:8px;color:#666;}
+
+/* Testimonials */
+.testimonials{padding:80px 20px;background:var(--paper);}
+.testimonials h2{text-align:center;font-size:32px;margin-bottom:40px;color:var(--red);}
+.swiper{max-width:800px;margin:auto;}
+.swiper-slide q{font-size:20px;font-style:italic;color:var(--text);}
+.swiper-slide cite{display:block;margin-top:16px;font-weight:600;color:var(--red);}
+.swiper-pagination-bullet-active{background:var(--red)!important;}
+
+/* Footer */
+.footer{background:var(--red);color:#fff;padding:50px 20px 30px;}
+.footer-inner{max-width:var(--maxWidth);margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;}
+.bottom-logo{height:32px;}
+.footer a{color:#fff;text-decoration:underline;}
+.social{display:flex;gap:12px;}
+
+/* 页面背景 */
+body {
+  margin: 0;
+  padding: 0;
+  background: url(./01.jpg) center top / contain no-repeat ;
+  min-height: 100vh;
+  background-color: #f9f5f0;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .top-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .top-right {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .main-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .main-nav a {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  .hero {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
+}
+
+/* ===== 高德地图容器 ===== */
+.stats-map{background:#fff;padding:60px 20px;}
+.map-wrapper{display:grid;grid-template-columns:380px 1fr;gap:40px;max-width:1200px;margin:auto;}
+#gd-map{width:100%;height:420px;border-radius:8px;border:1px solid #ddd;}
+.info-panel h2{margin-top:0;color:var(--red);}
+.info-panel .numbers{display:flex;gap:30px;margin:20px 0;}
+.info-panel .num{font-size:42px;font-weight:700;color:var(--red);}
+.proj-list{list-style:none;padding:0;margin:0;}
+.proj-list li{padding:6px 0;border-bottom:1px dashed #eee;}
+@media(max-width:768px){.map-wrapper{grid-template-columns:1fr;}#gd-map{height:300px;}}
+ 
+</style>
+
+<script>
+/* 数字滚动 counter */
+const counters=document.querySelectorAll('.num');
+const runCounter=()=>{
+  counters.forEach(c=>{
+    const target=+c.dataset.target,step=target/120;let now=0;
+    const upd=()=>{now+=step;if(now<target){c.textContent=Math.ceil(now);requestAnimationFrame(upd)}else{c.textContent=target}};
+    upd();
+  });
+};
+const io=new IntersectionObserver(entries=>entries[0].isIntersecting&&runCounter(),{threshold:.6});
+io.observe(document.querySelector('.stats'));
+
+/* 评价轮播（Swiper 仅 10k，可删） */
+if(typeof Swiper!=='undefined'){
+  new Swiper('.swiper',{loop:!0,autoplay:{delay:5e3},pagination:{el:'.swiper-pagination',clickable:!0}});
+}
+
+/* 动态日期显示 */
+function updateDate() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+  const weekday = weekdays[now.getDay()];
+  
+  // 这里简化处理农历，实际项目中可使用农历库
+  const lunar = "九月廿二";
+  
+  document.getElementById('current-date').textContent = 
+    `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${weekday} 农历${lunar}`;
+}
+updateDate();
+</script>
+
+<script>
+  const img = document.getElementById('paper');
+  let angle = 0;
+  let raf = null;
+  const speed = 2; // 旋转速度 (度/帧)
+
+  // 旋转函数
+  function rotate() {
+    img.style.transform = `rotate(${angle}deg)`;
+  }
+
+  // 动画循环
+  function animate(direction) {
+    angle += direction * speed;
+    rotate();
+    raf = requestAnimationFrame(() => animate(direction));
+  }
+
+  // 鼠标进入 - 根据方向决定顺/逆时针
+  img.addEventListener('mouseenter', (e) => {
+    if (raf) return; // 防止重复启动
+    
+    const rect = img.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    
+    // 核心：判断进入方向
+    const direction = e.clientX > centerX ? 1 : -1; // 右进=1顺时针，左进=-1逆时针
+    
+    animate(direction);
+  });
+
+  // 鼠标离开 - 停止旋转
+  img.addEventListener('mouseleave', () => {
+    if (raf) {
+      cancelAnimationFrame(raf);
+      raf = null;
+    }
+  });
+
+  // 触摸设备支持
+  img.addEventListener('touchstart', (e) => {
+    if (raf) return;
+    const rect = img.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const touch = e.touches[0];
+    const direction = touch.clientX > centerX ? 1 : -1;
+    animate(direction);
+  });
+  img.addEventListener('touchend', () => {
+    if (raf) {
+      cancelAnimationFrame(raf);
+      raf = null;
+    }
+  });
+
+  // 进入按钮逻辑
+  const welcome = document.getElementById('welcome');
+  const main    = document.getElementById('main');
+
+  document.getElementById('enterBtn').addEventListener('click', () => {
+    welcome.classList.add('hide');
+    setTimeout(() => {
+      welcome.style.display = 'none';
+      main.classList.add('show');
+    }, 600);
+  });
+
+ 
+</script>
+<!-- 高德 JSAPI（带插件） -->
+<script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=2.0&key=c665c806cc66176061d1de9454b11771&plugin=AMap.MarkerList,AMap.InfoWindow"></script>
+<script>
+  /* ===== 省份数据 ===== */
+  const mapData = {
+    '北京':   {proj:126, peo:102, list:['京剧','景泰蓝','雕漆','剪纸'],               center:[116.4074,39.9042]},
+    '河北':   {proj:163, peo:149, list:['太极拳','武强年画','衡水内画','蔚县剪纸'],   center:[114.5149,38.0428]},
+    '山东':   {proj:173, peo:186, list:['泰山皮影','潍坊风筝','山东快书','胶东花饽饽'],center:[117.0009,36.6758]},
+    '江苏':   {proj:162, peo:178, list:['苏绣','宜兴紫砂','昆曲','扬州漆器'],         center:[118.7969,32.0603]},
+    '浙江':   {proj:217, peo:196, list:['龙泉青瓷','宣纸','龙井茶','西泠印社'],       center:[120.1551,30.2741]},
+    '广东':   {proj:165, peo:156, list:['粤剧','潮州木雕','佛山剪纸','凉茶'],         center:[113.2663,23.1322]},
+    '全国':   {proj:1557,peo:3068,list:['剪纸','太极拳','宣纸','京剧','中医']}
+  };
+
+  /* ===== 初始化地图 ===== */
+  const map = new AMap.Map('gd-map', {
+    zoom: 5,
+    center: [108, 34], // 全国视角
+    viewMode: '3D',    // 3D 视角（可关）
+    mapStyle: 'amap://styles/whitesmoke' // 浅色底
+  });
+
+  /* ===== 批量添加 Marker ===== */
+  Object.entries(mapData).forEach(([name, data]) => {
+    if (name === '全国') return;
+    const marker = new AMap.Marker({
+      position: data.center,
+      title: name,
+      extData: {name} // 存省名
+    });
+    map.add(marker);
+
+    /* 点击 marker = 切换右侧信息 */
+    marker.on('click', function () {
+      switchPanel(name);
+    });
+  });
+
+  /* ===== 切换右侧信息栏 ===== */
+  function switchPanel(name) {
+    const data = mapData[name] || mapData['全国'];
+    document.querySelector('.info-panel h2').textContent = name;
+    document.getElementById('proj-count').textContent = data.proj;
+    document.getElementById('peo-count').textContent = data.peo;
+    const ul = document.getElementById('proj-list');
+    ul.innerHTML = data.list.map(i => `<li>${i}</li>`).join('');
+  }
+
+  /* 默认全国 */
+  switchPanel('全国');
+</script>
+</body>
+</html>
